@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Miniatures Collection</title>
+    <meta name="description" content="Painted vs unpainted by army, this year's progress against the backlog, output by year and time per model." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="head">
+        <h1>Miniatures collection</h1>
+        <p><b id="k-share">—</b> of points painted. Biggest unpainted pile: <b id="k-pile">—</b>.</p>
+        <span class="asof" id="asof"></span>
+      </header>
+      <div class="banner" id="banner" hidden></div>
+
+      <section class="strip" aria-label="Totals">
+        <div class="group"><div class="glabel">Models</div><div class="tiles t2">
+          <div class="tile"><div class="l">Models</div><div class="v" id="t-models">—</div></div>
+          <div class="tile"><div class="l">Unpainted models</div><div class="v" id="t-umodels">—</div></div>
+        </div></div>
+        <div class="group"><div class="glabel">Points</div><div class="tiles t4">
+          <div class="tile"><div class="l">Total points</div><div class="v" id="t-total">—</div></div>
+          <div class="tile"><div class="l">Painted pts</div><div class="v" id="t-painted">—</div></div>
+          <div class="tile"><div class="l">Unpainted pts</div><div class="v" id="t-unpainted">—</div></div>
+          <div class="tile"><div class="l">Painted share</div><div class="v" id="t-share">—</div></div>
+        </div></div>
+      </section>
+
+      <div class="grid">
+        <section class="card" id="by-army">
+          <div class="ch">
+            <div><h2 id="army-title">Models by army</h2><p class="note" id="army-note"></p></div>
+            <div class="seg" role="group" aria-label="Measure" data-for="army">
+              <button type="button" data-m="models" aria-pressed="true">Models</button><button type="button" data-m="pts" aria-pressed="false">Points</button>
+            </div>
+          </div>
+          <div class="legend" id="army-legend"><span><i class="sw" style="background: var(--painted)"></i>Painted</span><span><i class="sw" style="background: var(--unpainted)"></i>Unpainted</span></div>
+          <div class="bars" id="army-bars"></div>
+        </section>
+
+        <section class="card" id="this-year">
+          <div class="ch">
+            <div><h2 id="cmp-title">This year vs still in progress</h2><p class="note">Hover a faction for this year's units.</p></div>
+            <div class="seg" role="group" aria-label="Measure" data-for="cmp">
+              <button type="button" data-m="models" aria-pressed="true">Models</button><button type="button" data-m="pts" aria-pressed="false">Points</button>
+            </div>
+          </div>
+          <div class="figs">
+            <div><div class="l"><i class="sw" style="background: var(--painted)"></i><span id="f-done-label">This year</span></div><div class="v" id="f-done">—</div></div>
+            <div><div class="l"><i class="sw" style="background: var(--progress)"></i>In progress</div><div class="v" id="f-prog">—</div></div>
+            <div><div class="l">Backlog vs this year</div><div class="v" id="f-ratio">—</div></div>
+          </div>
+          <div class="bars" id="cmp-bars"></div>
+        </section>
+
+        <section class="card" id="trend">
+          <div class="ch">
+            <div><h2>Output by year</h2><p class="note">Everything worked on each year. Dashed: this year at its current pace.</p></div>
+            <div class="seg" role="group" aria-label="Measure" data-for="years">
+              <button type="button" data-m="models" aria-pressed="true">Models</button><button type="button" data-m="pts" aria-pressed="false">Points</button>
+            </div>
+          </div>
+          <div class="years" id="years"></div>
+          <p class="cap" id="pace"></p>
+        </section>
+
+        <section class="card" id="time-per-model">
+          <h2>Time per model</h2>
+          <p class="note">From the hours logged on big painting projects.</p>
+          <div class="figs">
+            <div><div class="l">Infantry batches</div><div class="v" id="s-inf">—</div></div>
+            <div><div class="l">Knights &amp; armigers</div><div class="v" id="s-kn">—</div></div>
+            <div><div class="l">All logged</div><div class="v" id="s-all">—</div></div>
+          </div>
+          <div class="tw">
+            <table id="tpm">
+              <thead><tr><th>Project</th><th class="hn">When</th><th>Models</th><th>Hours</th><th>Min/model</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+      <p class="foot" id="foot"></p>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

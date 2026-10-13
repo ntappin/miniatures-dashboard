@@ -1,0 +1,7 @@
+[
+  { "project": "Mechanicus first push", "when": "Feb 2023", "kind": "infantry", "models": 121, "hours": 30.25, "source": "Mystical mechanicus 1st push notes tab, hours log" },
+  { "project": "Custodes block painting", "when": "Jun–Jul", "kind": "infantry", "models": 39, "hours": 20, "source": "custodes tab, version one block painting log" },
+  { "project": "Craftworld infantry batch", "when": "2025", "kind": "infantry", "models": 67, "hours": 18.5, "source": "in progress tab, session log beside the 2025 Craftworld rows" },
+  { "project": "Stormtoads batch", "when": "2025", "kind": "infantry", "models": 35, "hours": 11.83, "source": "in progress tab, 710-minute log beside the 2025 Stormtoads rows" },
+  { "project": "Knights (3 knights, 8 armigers)", "when": "Nov–Dec 2023", "kind": "knight", "models": 11, "hours": 39, "source": "big knights tab, dated session log" }
+]

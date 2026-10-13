@@ -1,0 +1,346 @@
+{
+  "generatedAt": "2026-10-12T22:00:00-04:00",
+  "origin": "snapshot",
+  "armies": [
+    {
+      "group": "eldar",
+      "army": "craftworlds",
+      "totalPts": 13636,
+      "paintedPts": 12501,
+      "unpaintedPts": 1135,
+      "models": 342,
+      "source": "print"
+    },
+    {
+      "group": "eldar",
+      "army": "Harlequins",
+      "totalPts": 1975,
+      "paintedPts": 1140,
+      "unpaintedPts": 835,
+      "models": 61,
+      "source": "print/convert"
+    },
+    {
+      "group": "eldar",
+      "army": "Drukhari",
+      "totalPts": 6344,
+      "paintedPts": 4464,
+      "unpaintedPts": 1880,
+      "models": 264,
+      "source": "used"
+    },
+    {
+      "group": "imperial",
+      "army": "First Born night lords",
+      "totalPts": 4722,
+      "paintedPts": 4047,
+      "unpaintedPts": 675,
+      "models": 115,
+      "source": "used"
+    },
+    {
+      "group": "imperial",
+      "army": "Mystical mechanicus",
+      "totalPts": 3175,
+      "paintedPts": 2575,
+      "unpaintedPts": 600,
+      "models": 134,
+      "source": "print"
+    },
+    {
+      "group": "imperial",
+      "army": "heresy imperial knights",
+      "totalPts": 5275,
+      "paintedPts": 4090,
+      "unpaintedPts": 1185,
+      "models": 20,
+      "source": "print"
+    },
+    {
+      "group": "imperial",
+      "army": "custodes",
+      "totalPts": 7789,
+      "paintedPts": 7451,
+      "unpaintedPts": 338,
+      "models": 151,
+      "source": "used"
+    },
+    {
+      "group": "imperial",
+      "army": "Agents",
+      "totalPts": 4820,
+      "paintedPts": 905,
+      "unpaintedPts": 3915,
+      "models": 214,
+      "source": "mix"
+    },
+    {
+      "group": "fantasy",
+      "army": "Night Goblins",
+      "totalPts": 3933,
+      "paintedPts": 0,
+      "unpaintedPts": 3933,
+      "models": 268,
+      "source": "used"
+    },
+    {
+      "group": "votann",
+      "army": "Votann",
+      "totalPts": 655,
+      "paintedPts": 440,
+      "unpaintedPts": 215,
+      "models": 28,
+      "source": "get rid of"
+    }
+  ],
+  "projects": [
+    {
+      "year": 2026,
+      "faction": "imperial agents",
+      "unit": "calidus",
+      "state": "done",
+      "pts": 100,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "tau",
+      "unit": "breachers",
+      "state": "done",
+      "pts": 90,
+      "models": 10
+    },
+    {
+      "year": 2026,
+      "faction": "tau",
+      "unit": "devilfish",
+      "state": "done",
+      "pts": 85,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "tau",
+      "unit": "Cadre Fireblade",
+      "state": "done",
+      "pts": 50,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "tau",
+      "unit": "commander",
+      "state": "done",
+      "pts": 80,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "tau",
+      "unit": "Pathfinders",
+      "state": "done",
+      "pts": 90,
+      "models": 10
+    },
+    {
+      "year": 2026,
+      "faction": "craftworld",
+      "unit": "fire dragons",
+      "state": "done",
+      "pts": 220,
+      "models": 10
+    },
+    {
+      "year": 2026,
+      "faction": "craftworld",
+      "unit": "starfang",
+      "state": "done",
+      "pts": 150,
+      "models": 2
+    },
+    {
+      "year": 2026,
+      "faction": "imperial agents",
+      "unit": "rhino",
+      "state": "done",
+      "pts": 80,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "Knights",
+      "unit": "warglave",
+      "state": "done",
+      "pts": 540,
+      "models": 4
+    },
+    {
+      "year": 2026,
+      "faction": "craftworld",
+      "unit": "howling banshees",
+      "state": "pastel/blue",
+      "pts": 140,
+      "models": 10
+    },
+    {
+      "year": 2026,
+      "faction": "craftworld",
+      "unit": "jain zar",
+      "state": "pastel/blue",
+      "pts": 100,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "stormtoads",
+      "unit": "immolator",
+      "state": "pastel/trim",
+      "pts": 115,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "stormtoads",
+      "unit": "Warden",
+      "state": "pastel/blue",
+      "pts": 150,
+      "models": 3
+    },
+    {
+      "year": 2026,
+      "faction": "stormtoads",
+      "unit": "vigilators",
+      "state": "trim",
+      "pts": 188,
+      "models": 15
+    },
+    {
+      "year": 2026,
+      "faction": "stormtoads",
+      "unit": "knight centura",
+      "state": "trim",
+      "pts": 300,
+      "models": 6
+    },
+    {
+      "year": 2026,
+      "faction": "stormtoads",
+      "unit": "witchseekers",
+      "state": "trim",
+      "pts": 188,
+      "models": 15
+    },
+    {
+      "year": 2026,
+      "faction": "stormtoads",
+      "unit": "Venatari Custodians",
+      "state": "trim",
+      "pts": 165,
+      "models": 6
+    },
+    {
+      "year": 2026,
+      "faction": "stormtoads",
+      "unit": "Telemon Heavy Dreadnought",
+      "state": "trim",
+      "pts": 215,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "craftworld",
+      "unit": "fire prism turrets",
+      "state": "base coated",
+      "pts": 480,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "chaos",
+      "unit": "Master of Possession",
+      "state": "playable",
+      "pts": 0,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "chaos",
+      "unit": "Possessed",
+      "state": "playable",
+      "pts": 0,
+      "models": 5
+    },
+    {
+      "year": 2026,
+      "faction": "chaos",
+      "unit": "Chaos Space Marines",
+      "state": "playable",
+      "pts": 0,
+      "models": 10
+    },
+    {
+      "year": 2026,
+      "faction": "chaos",
+      "unit": "Chaos Cultists",
+      "state": "playable",
+      "pts": 0,
+      "models": 10
+    },
+    {
+      "year": 2026,
+      "faction": "drukhari",
+      "unit": "Mandrakes",
+      "state": "playable",
+      "pts": 130,
+      "models": 10
+    },
+    {
+      "year": 2026,
+      "faction": "Knights",
+      "unit": "porphyrion",
+      "state": "playable",
+      "pts": 700,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "drukhari",
+      "unit": "drazhar",
+      "state": "done",
+      "pts": 100,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "imperial agents",
+      "unit": "inquisitor greyfax",
+      "state": "done",
+      "pts": 70,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "imperial agents",
+      "unit": "Inquisitor",
+      "state": "done",
+      "pts": 55,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "craftworld",
+      "unit": "the visarch",
+      "state": "inked",
+      "pts": 100,
+      "models": 1
+    },
+    {
+      "year": 2026,
+      "faction": "drukhari",
+      "unit": "hellions",
+      "state": "based",
+      "pts": 75,
+      "models": 5
+    }
+  ]
+}
