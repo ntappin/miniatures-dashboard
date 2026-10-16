@@ -2,7 +2,7 @@ import "./style.css";
 import { bindTaskForm, renderArmy, taskRow } from "./army";
 import { renderDashboard } from "./dashboard";
 import { armySlug } from "./lib/armies";
-import { getToken, setToken } from "./lib/github";
+import { editingAvailable, signOut } from "./auth";
 import { sortTasks } from "./lib/tasks";
 import type { Army, Collection, TimeLog } from "./lib/types";
 import { TaskStore } from "./store";
@@ -47,49 +47,39 @@ function renderNextUp() {
       const go = el("a", "task-go", "Open");
       go.href = `#army/${t.army}`;
       go.setAttribute("aria-label", `Open ${names.get(t.army) ?? t.army}`);
-      li.insertBefore(go, li.lastChild);
+      li.insertBefore(go, li.querySelector(".task-del"));
       return li;
     }),
   );
   $("next-empty").hidden = open.length > 0;
+  $("next-empty").textContent = store.canEdit ? "No open tasks. Open an army to add one." : "No open tasks right now.";
   $("next-more").textContent = open.length > 8 ? `+${open.length - 8} more on the army pages` : "";
 }
 
-// Save status and the connect panel.
+// Sign-in and save status. Signed out the site is read-only.
 function renderSave() {
   const s = store.save;
   const status = $("save-status");
+  const btn = $("signin-btn");
+  btn.hidden = !editingAvailable;
+  btn.textContent = store.canEdit ? "Sign out" : "Sign in to edit";
   status.className = "save-status " + s.kind;
   status.textContent =
-    s.kind === "local" ? "Not saving: changes stay on this page" :
+    s.kind === "public" ? "" :
     s.kind === "saving" ? "Saving…" :
-    s.kind === "saved" ? "Saved to GitHub" : s.message;
-  $("connect-btn").textContent = store.connected ? "Disconnect" : "Connect to save";
+    s.kind === "saved" ? "Editing · saved to the sheet" : s.message;
+  document.body.classList.toggle("editing", store.canEdit);
 }
 
-function bindConnect() {
-  const panel = $("connect-panel");
-  const input = $("token-input") as HTMLInputElement;
-  $("connect-btn").addEventListener("click", () => {
-    if (store.connected) {
-      setToken(null);
-      store.save = { kind: "local" };
-      renderSave();
-      return;
+function bindSignIn() {
+  $("signin-btn").addEventListener("click", async () => {
+    if (!store.canEdit) {
+      $("save-status").textContent = "Signing in…";
+      await store.startEditing();
+    } else {
+      signOut();
+      store.stopEditing();
     }
-    panel.hidden = !panel.hidden;
-    if (!panel.hidden) input.focus();
-  });
-  $("connect-cancel").addEventListener("click", () => {
-    panel.hidden = true;
-  });
-  ($("connect-form") as HTMLFormElement).addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (!input.value.trim()) return;
-    setToken(input.value);
-    input.value = "";
-    panel.hidden = true;
-    await store.refresh();
   });
 }
 
@@ -113,13 +103,12 @@ async function load() {
     document.querySelector(".grid")?.replaceWith(box);
     return;
   }
-  bindConnect();
+  bindSignIn();
   bindTaskForm(store, () => current);
   store.onChange(rerender);
   window.addEventListener("hashchange", route);
   route();
   renderSave();
-  if (getToken()) $("save-status").textContent = "Loading tasks…";
   await store.load(base);
 }
 

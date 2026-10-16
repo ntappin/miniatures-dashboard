@@ -14,9 +14,12 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { parseArmies, parseProjects, type Grid } from "../src/lib/parse";
+import { rowsToTasks, TASKS_TAB } from "../src/lib/task-rows";
 import type { Collection } from "../src/lib/types";
 
-const OUT = resolve(dirname(fileURLToPath(import.meta.url)), "../public/data/collection.json");
+const DATA = resolve(dirname(fileURLToPath(import.meta.url)), "../public/data");
+const OUT = resolve(DATA, "collection.json");
+const TASKS_OUT = resolve(DATA, "tasks.json");
 const TABS = { armies: "'11th'!A1:H80", projects: "'in progress'!A1:H500" };
 
 interface ServiceAccount {
@@ -67,6 +70,16 @@ async function readTabs(sheetId: string, token: string): Promise<Record<keyof ty
   return { armies, projects };
 }
 
+/** The tasks tab, or null when it doesn't exist yet (the app creates it on the first edit). */
+async function readTasksTab(sheetId: string, token: string): Promise<Grid | null> {
+  const url = new URL(`https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${encodeURIComponent(`'${TASKS_TAB}'!A1:G1000`)}`);
+  const res = await fetch(url, { headers: { authorization: `Bearer ${token}` } });
+  const body = (await res.json()) as { values?: unknown[][]; error?: { message: string } };
+  if (res.status === 400 && /Unable to parse range/i.test(body.error?.message ?? "")) return null;
+  if (!res.ok) throw new Error(`Reading the tasks tab failed: ${body.error?.message ?? res.status}`);
+  return (body.values ?? []).map((r) => r.map((c) => (c ?? "").toString()));
+}
+
 async function main() {
   const sheetId = process.env.SHEET_ID;
   const key = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
@@ -85,6 +98,15 @@ async function main() {
   await mkdir(dirname(OUT), { recursive: true });
   await writeFile(OUT, JSON.stringify(data, null, 2) + "\n");
   console.log(`Synced ${data.armies.length} armies and ${data.projects.length} units from the sheet.`);
+
+  const taskRows = await readTasksTab(sheetId, token);
+  if (taskRows === null) {
+    console.log("No tasks tab on the sheet yet; keeping the saved tasks.");
+  } else {
+    const tasks = rowsToTasks(taskRows);
+    await writeFile(TASKS_OUT, JSON.stringify(tasks, null, 2) + "\n");
+    console.log(`Synced ${tasks.length} tasks.`);
+  }
 }
 
 main().catch((err: Error) => {

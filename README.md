@@ -6,7 +6,7 @@ Live at **https://ntappin.github.io/miniatures-dashboard/**
 
 ## Where the data comes from
 
-For now the data lives in my "toy list" Google Sheet, and I keep editing it there. Once a day (and on every push), a GitHub Action reads the sheet, writes `public/data/collection.json`, builds the site and publishes it to GitHub Pages.
+For now the data lives in my "toy list" Google Sheet, and I keep editing it there. Every 30 minutes (and on every push), a GitHub Action reads the sheet, writes `public/data/collection.json`, builds the site and publishes it to GitHub Pages.
 
 | Sheet tab | What's read |
 |---|---|
@@ -26,9 +26,28 @@ The sync only reads those two tabs. Nothing else in the sheet ends up in the rep
 5. In this repo on GitHub, go to **Settings → Secrets and variables → Actions**:
    - **Secrets** tab: add `GOOGLE_SERVICE_ACCOUNT_JSON` and paste the whole contents of the downloaded file.
    - **Variables** tab: add `SHEET_ID` with the id from the sheet's URL (the part between `/d/` and `/edit`).
-6. Run the **Sync sheet and deploy** workflow from the **Actions** tab, or wait for the next daily run.
+6. Run the **Sync sheet and deploy** workflow from the **Actions** tab, or wait for the next scheduled run.
 
 Until then the site shows the saved copy in `public/data/collection.json`.
+
+## Editing: tasks and sign-in
+
+Anyone can view the site. Only I can change it: **Sign in to edit** signs in with Google, and the app then reads and writes a `tasks` tab in the toy list sheet using my own Google access. Google allows writes only from accounts with edit access to the sheet, so other visitors who sign in can't save anything.
+
+- Signed in, edits save straight to the sheet and show for me immediately.
+- The public page picks them up on the next sync (every 30 minutes) or when the workflow is run by hand.
+- The `tasks` tab is created on the first edit. It can also be edited directly in the sheet: columns are `id, army, title, unit, status, created, done`, with `status` either `todo` or `done`.
+
+### Setting up Google sign-in (one time)
+
+Use the same Google Cloud project as the sheet sync.
+
+1. **APIs & Services → OAuth consent screen**: choose **External**, fill in the app name and your email, and add the scope `.../auth/spreadsheets`. Leave it in **Testing** and add your own Google account under **Test users**.
+2. **APIs & Services → Credentials → Create credentials → OAuth client ID**: type **Web application**. Under **Authorized JavaScript origins** add `https://ntappin.github.io` (and `http://localhost:5173` for local work). No redirect URIs are needed.
+3. Copy the **Client ID** (it ends in `.apps.googleusercontent.com`) and add it in this repo under **Settings → Secrets and variables → Actions → Variables** as `GOOGLE_CLIENT_ID`. It isn't secret; it ends up in the page.
+4. Run the **Sync sheet and deploy** workflow. **Sign in to edit** appears at the top of the site.
+
+The first sign-in shows Google's "this app isn't verified" screen, because the app is in Testing; continue as the test user.
 
 ## Developing
 
@@ -44,9 +63,11 @@ Code layout:
 
 - `src/lib/parse.ts`: turns sheet tabs into armies and unit rows
 - `src/lib/stats.ts`: totals, this year vs backlog, output by year, pace, time per model
-- `src/main.ts`: the dashboard page
-- `scripts/sync-sheet.ts`: reads the sheet with the service account and writes the data file
+- `src/lib/task-rows.ts`, `src/lib/sheets.ts`: the tasks tab layout, and reading and writing it as the signed-in user
+- `src/auth.ts`: Google sign-in
+- `src/main.ts`, `src/dashboard.ts`, `src/army.ts`: the dashboard and army pages
+- `scripts/sync-sheet.ts`: reads the sheet with the service account and writes the public data files
 
-## Later: entering data in the app
+## Later
 
-The plan is for the app to replace the sheet as the place I enter things (logging painting sessions, moving units out of the backlog, adding new armies). The data is already shaped for that: `collection.json` holds plain army and unit records rather than sheet cells. Moving input into the app means adding a small backend to store those records and swapping the sheet sync for it.
+More of what's in the sheet can move into the app the same way as tasks: logging painting sessions, moving units out of the backlog, adding armies. Each one is a tab the app writes with Google sign-in and the sync publishes.

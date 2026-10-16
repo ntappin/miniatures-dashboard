@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   schedule:
-    - cron: "17 9 * * *" # daily, about 5am Toronto time
+    - cron: "7,37 * * * *" # every 30 minutes, so edits made in the app reach the public page
   workflow_dispatch:
 
 permissions:
@@ -33,6 +33,9 @@ jobs:
           SHEET_ID: ${{ vars.SHEET_ID }}
           GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
       - run: npm run build
+        env:
+          VITE_GOOGLE_CLIENT_ID: ${{ vars.GOOGLE_CLIENT_ID }}
+          VITE_SHEET_ID: ${{ vars.SHEET_ID }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

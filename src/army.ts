@@ -17,9 +17,8 @@ export function taskRow(t: Task, store: TaskStore, armyName?: string): HTMLLIEle
   box.type = "checkbox";
   box.id = id;
   box.checked = t.status === "done";
-  box.addEventListener("change", () =>
-    store.apply((ts) => toggleTask(ts, t.id), `${t.status === "done" ? "Reopen" : "Done"}: ${t.title}`),
-  );
+  box.disabled = !store.canEdit;
+  box.addEventListener("change", () => store.apply((ts) => toggleTask(ts, t.id)));
   const label = el("label");
   label.htmlFor = id;
   label.append(el("span", "task-title", t.title));
@@ -28,11 +27,14 @@ export function taskRow(t: Task, store: TaskStore, armyName?: string): HTMLLIEle
   if (t.unit) meta.push(t.unit);
   if (t.status === "done" && t.done) meta.push("done " + new Date(t.done).toLocaleDateString("en-CA", { month: "short", day: "numeric" }));
   if (meta.length) label.append(el("span", "task-meta", meta.join(" · ")));
-  const del = el("button", "task-del", "Delete");
-  del.type = "button";
-  del.setAttribute("aria-label", `Delete task: ${t.title}`);
-  del.addEventListener("click", () => store.apply((ts) => removeTask(ts, t.id), `Delete task: ${t.title}`));
-  li.append(box, label, del);
+  li.append(box, label);
+  if (store.canEdit) {
+    const del = el("button", "task-del", "Delete");
+    del.type = "button";
+    del.setAttribute("aria-label", `Delete task: ${t.title}`);
+    del.addEventListener("click", () => store.apply((ts) => removeTask(ts, t.id)));
+    li.append(del);
+  }
   return li;
 }
 
@@ -66,6 +68,8 @@ export function renderArmy(army: Army, data: Collection, store: TaskStore) {
   const open = mine.filter((t) => t.status === "todo").length;
   $("army-task-count").textContent = mine.length ? `${open} to do · ${mine.length - open} done` : "";
   $("army-tasks-empty").hidden = mine.length > 0;
+  $("army-tasks-empty").textContent = store.canEdit ? "No tasks yet. Add the next step above." : "No tasks for this army right now.";
+  $("task-form").hidden = !store.canEdit;
 
   // Units table
   const body = document.querySelector("#army-units tbody")!;
@@ -77,15 +81,17 @@ export function renderArmy(army: Army, data: Collection, store: TaskStore) {
       const when = u.year === null ? "In progress" : String(u.year);
       const pill = el("span", "pill " + (u.year === null ? "pill-prog" : u.year === year ? "pill-year" : "pill-old"), when);
       const unitCell = el("td");
-      const btn = el("button", "unit-link", u.unit);
-      btn.type = "button";
-      btn.title = "Add a task for this unit";
-      btn.addEventListener("click", () => {
-        if (![...pick.options].some((o) => o.value === u.unit)) pick.append(new Option(u.unit, u.unit));
-        pick.value = u.unit;
-        ($("task-title") as HTMLInputElement).focus();
-      });
-      unitCell.append(btn);
+      if (store.canEdit) {
+        const btn = el("button", "unit-link", u.unit);
+        btn.type = "button";
+        btn.title = "Add a task for this unit";
+        btn.addEventListener("click", () => {
+          if (![...pick.options].some((o) => o.value === u.unit)) pick.append(new Option(u.unit, u.unit));
+          pick.value = u.unit;
+          ($("task-title") as HTMLInputElement).focus();
+        });
+        unitCell.append(btn);
+      } else unitCell.textContent = u.unit;
       const whenCell = el("td");
       whenCell.append(pill);
       tr.append(unitCell, el("td", undefined, u.state || "—"), el("td", undefined, u.pts ? fmt(u.pts) : "—"), el("td", undefined, fmt(u.models)), whenCell);
@@ -105,7 +111,7 @@ export function bindTaskForm(store: TaskStore, currentArmy: () => Army | undefin
     const text = title.value.trim();
     if (!army || !text) return;
     const task = newTask(armySlug(army.army), text, unit.value || undefined);
-    store.apply((ts) => [...ts, task], `Add task for ${army.army}: ${task.title}`);
+    store.apply((ts) => [...ts, task]);
     title.value = "";
     title.focus();
   });

@@ -17,24 +17,8 @@
         <span class="asof" id="asof"></span>
       </header>
       <div class="savebar">
-        <span class="save-status local" id="save-status" role="status"></span>
-        <button type="button" class="btn" id="connect-btn">Connect to save</button>
-      </div>
-      <div class="card connect" id="connect-panel" hidden>
-        <h2>Save tasks to GitHub</h2>
-        <p class="note">Tasks are saved in this site's GitHub repo. Paste a GitHub token to save from this browser; it stays in this browser only.</p>
-        <ol class="steps">
-          <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub's new fine-grained token page</a>.</li>
-          <li>Under <b>Repository access</b>, choose <b>Only select repositories</b> and pick <b>miniatures-dashboard</b>.</li>
-          <li>Under <b>Permissions → Repository permissions</b>, set <b>Contents</b> to <b>Read and write</b>.</li>
-          <li>Generate the token and paste it here.</li>
-        </ol>
-        <form id="connect-form" class="row-form">
-          <label class="sr" for="token-input">GitHub token</label>
-          <input id="token-input" type="password" autocomplete="off" placeholder="github_pat_…" />
-          <button type="submit" class="btn primary">Connect</button>
-          <button type="button" class="btn" id="connect-cancel">Cancel</button>
-        </form>
+        <span class="save-status public" id="save-status" role="status"></span>
+        <button type="button" class="btn" id="signin-btn" hidden>Sign in to edit</button>
       </div>
 
       <main id="view-dashboard">
@@ -144,7 +128,7 @@
           </section>
           <section class="card" id="army-units-card">
             <h2>Units</h2>
-            <p class="note">From the in progress tab. Click a unit to add a task for it.</p>
+            <p class="note">From the in progress tab.<span class="edit-only"> Click a unit to add a task for it.</span></p>
             <div class="tw" id="army-units-wrap">
               <table id="army-units">
                 <thead><tr><th>Unit</th><th>State</th><th>Pts</th><th>Models</th><th>When</th></tr></thead>

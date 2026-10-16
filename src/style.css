@@ -148,3 +148,4 @@ body { margin: 0; }
 @media (max-width: 48rem) { .t6 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 30rem) { .t6 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 #view-dashboard, #view-army { display: flex; flex-direction: column; gap: 10px; }
+body:not(.editing) .edit-only { display: none; }

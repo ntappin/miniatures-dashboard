@@ -147,7 +147,7 @@ export function renderDashboard(data: Collection, logs: TimeLog[], onArmy: (a: A
   const year = asOf.getUTCFullYear();
   const dateText = asOf.toLocaleDateString("en-CA", { year: "numeric", month: "short", day: "numeric" });
   $("asof").textContent = data.origin === "sheet" ? `Synced from the toy list sheet ${dateText}` : `Saved copy of the toy list sheet, ${dateText}`;
-  $("foot").textContent = "Data comes from the toy list Google Sheet and refreshes daily.";
+  $("foot").textContent = "Data comes from the toy list Google Sheet and refreshes every 30 minutes.";
 
   const backlog = data.projects.filter((p) => p.year === null);
   if (data.origin === "snapshot" && !backlog.length) {
