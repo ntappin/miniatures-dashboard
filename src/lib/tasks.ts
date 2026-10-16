@@ -42,3 +42,8 @@ export function sortTasks(tasks: Task[]): Task[] {
  * different tasks don't overwrite each other.
  */
 export type TaskChange = (tasks: Task[]) => Task[];
+
+/** Marks a task done if it's still open; leaves finished tasks as they are. */
+export function completeTask(tasks: Task[], id: string, now = new Date()): Task[] {
+  return tasks.map((t) => (t.id === id && t.status === "todo" ? { ...t, status: "done", done: now.toISOString() } : t));
+}

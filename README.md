@@ -36,6 +36,7 @@ Anyone can view the site. Only I can change it: **Sign in to edit** signs in wit
 
 - Signed in, edits save straight to the sheet and show for me immediately.
 - The public page picks them up on the next sync (every 30 minutes) or when the workflow is run by hand.
+- Signed in, the site opens on the **Workbench**: what's in progress per army, a pick of which armies I'm working on, and their upcoming tasks. **Log work** asks for the army, then the units, then which task I did, and adds one row per unit to a `work log` tab (`id, date, army, unit, step, task, session`). It never edits the `in progress` tab; each unit's latest logged step shows beside its state from the sheet.
 - The `tasks` tab is created on the first edit. It can also be edited directly in the sheet: columns are `id, army, title, unit, status, created, done`, with `status` either `todo` or `done`.
 
 ### Setting up Google sign-in (one time)
@@ -65,7 +66,8 @@ Code layout:
 - `src/lib/stats.ts`: totals, this year vs backlog, output by year, pace, time per model
 - `src/lib/task-rows.ts`, `src/lib/sheets.ts`: the tasks tab layout, and reading and writing it as the signed-in user
 - `src/auth.ts`: Google sign-in
-- `src/main.ts`, `src/dashboard.ts`, `src/army.ts`: the dashboard and army pages
+- `src/lib/worklog.ts`: work log entries, units still being worked on, latest step per unit
+- `src/main.ts`, `src/dashboard.ts`, `src/army.ts`, `src/workbench.ts`: the dashboard, army pages, workbench and log work flow
 - `scripts/sync-sheet.ts`: reads the sheet with the service account and writes the public data files
 
 ## Later

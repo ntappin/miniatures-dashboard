@@ -17,6 +17,10 @@
         <span class="asof" id="asof"></span>
       </header>
       <div class="savebar">
+        <nav class="tabs edit-only" aria-label="Sections">
+          <a href="#work" id="nav-work">Workbench</a>
+          <a href="#" id="nav-dash">Dashboard</a>
+        </nav>
         <span class="save-status public" id="save-status" role="status"></span>
         <button type="button" class="btn" id="signin-btn" hidden>Sign in to edit</button>
       </div>
@@ -99,6 +103,42 @@
       </div>
       </main>
 
+      <main id="view-work" hidden>
+        <div class="wb-head">
+          <div>
+            <h2 class="army-name">Workbench</h2>
+            <p class="note" id="wb-total"></p>
+          </div>
+          <a class="btn primary big" href="#log" id="wb-log">Log work</a>
+        </div>
+        <section class="card" id="wb-in-progress">
+          <div class="ch"><h2>In progress</h2></div>
+          <p class="note">Which armies are you working on? Pick one or more to see their upcoming tasks.</p>
+          <div class="wb-armies" id="wb-armies"></div>
+          <p class="empty" id="wb-armies-empty" hidden>Nothing in progress yet. Units with no year on the in progress tab show up here.</p>
+        </section>
+        <div class="wb-cols" id="wb-tasks"></div>
+        <p class="empty" id="wb-tasks-empty">Pick an army above to see its upcoming tasks.</p>
+        <section class="card" id="wb-recent-card" hidden>
+          <h2>Recent work</h2>
+          <ul class="wb-recent" id="wb-recent"></ul>
+        </section>
+      </main>
+
+      <main id="view-log" hidden>
+        <nav class="crumbs"><a href="#work">← Workbench</a></nav>
+        <section class="card log-card">
+          <ol class="log-steps" id="log-steps"></ol>
+          <h2 class="log-q" id="log-q"></h2>
+          <div class="log-body" id="log-body"></div>
+          <p class="log-error" id="log-error" role="alert"></p>
+          <div class="log-nav">
+            <button type="button" class="btn" id="log-back">Back</button>
+            <button type="button" class="btn primary" id="log-next">Next</button>
+          </div>
+        </section>
+      </main>
+
       <main id="view-army" hidden>
         <nav class="crumbs"><a href="#">← All armies</a></nav>
         <div class="army-head">
@@ -140,6 +180,7 @@
         </div>
       </main>
       <p class="foot" id="foot"></p>
+      <div class="toast" id="toast" role="status" hidden></div>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

@@ -32,7 +32,24 @@ declare global {
 }
 
 let client: TokenClient | undefined;
-let token: { value: string; expires: number } | undefined;
+// Kept for this browser tab only, so a reload doesn't ask to sign in again within the hour.
+const TOKEN_KEY = "miniatures-dashboard:google-token";
+let token: { value: string; expires: number } | undefined = (() => {
+  try {
+    const t = JSON.parse(sessionStorage.getItem(TOKEN_KEY) ?? "null") as { value: string; expires: number } | null;
+    return t && t.expires > Date.now() ? t : undefined;
+  } catch {
+    return undefined;
+  }
+})();
+const remember = () => {
+  try {
+    if (token) sessionStorage.setItem(TOKEN_KEY, JSON.stringify(token));
+    else sessionStorage.removeItem(TOKEN_KEY);
+  } catch {
+    /* storage blocked: sign in again after a reload */
+  }
+};
 let pending: { resolve: (t: string) => void; reject: (e: Error) => void } | undefined;
 
 export const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID as string | undefined;
@@ -61,6 +78,7 @@ async function getClient(): Promise<TokenClient> {
     callback: (r) => {
       if (r.access_token) {
         token = { value: r.access_token, expires: Date.now() + ((r.expires_in ?? 3600) - 60) * 1000 };
+        remember();
         pending?.resolve(r.access_token);
       } else {
         pending?.reject(new Error(r.error_description || "Google sign-in didn't complete."));
@@ -92,4 +110,5 @@ export function currentToken(): string | undefined {
 export function signOut() {
   if (token) window.google?.accounts.oauth2.revoke(token.value);
   token = undefined;
+  remember();
 }

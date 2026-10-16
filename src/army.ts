@@ -1,7 +1,7 @@
 import { armySlug, projectsForArmy } from "./lib/armies";
 import { newTask, removeTask, sortTasks, toggleTask, type Task } from "./lib/tasks";
 import type { Army, Collection, Project } from "./lib/types";
-import type { TaskStore } from "./store";
+import type { Store } from "./store";
 import { $, el, fmt, pct } from "./ui";
 
 /** Units for an army: backlog first, then this year's, then earlier years. */
@@ -10,7 +10,7 @@ function orderUnits(units: Project[], year: number): Project[] {
   return [...units].sort((a, b) => rank(a) - rank(b) || (b.year ?? 0) - (a.year ?? 0) || a.unit.localeCompare(b.unit));
 }
 
-export function taskRow(t: Task, store: TaskStore, armyName?: string): HTMLLIElement {
+export function taskRow(t: Task, store: Store, armyName?: string): HTMLLIElement {
   const li = el("li", "task" + (t.status === "done" ? " done" : ""));
   const id = `task-${t.id}`;
   const box = el("input");
@@ -38,7 +38,7 @@ export function taskRow(t: Task, store: TaskStore, armyName?: string): HTMLLIEle
   return li;
 }
 
-export function renderArmy(army: Army, data: Collection, store: TaskStore) {
+export function renderArmy(army: Army, data: Collection, store: Store) {
   const slug = armySlug(army.army);
   const year = new Date(data.generatedAt).getUTCFullYear();
   const units = orderUnits(projectsForArmy(army, data.projects, data.armies), year);
@@ -101,7 +101,7 @@ export function renderArmy(army: Army, data: Collection, store: TaskStore) {
 }
 
 /** Wires the add-task form once; it always adds to whichever army is showing. */
-export function bindTaskForm(store: TaskStore, currentArmy: () => Army | undefined) {
+export function bindTaskForm(store: Store, currentArmy: () => Army | undefined) {
   const form = $("task-form") as HTMLFormElement;
   const title = $("task-title") as HTMLInputElement;
   const unit = $("task-unit") as HTMLSelectElement;

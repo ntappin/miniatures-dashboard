@@ -57,3 +57,13 @@ describe("tasks", () => {
     expect(removeTask([a, b], a.id)).toEqual([b]);
   });
 });
+
+describe("completeTask", () => {
+  it("finishes an open task and leaves a finished one alone", async () => {
+    const { completeTask } = await import("../src/lib/tasks");
+    const open = newTask("agents", "Prime", undefined, new Date("2026-10-01T00:00:00Z"));
+    const done = completeTask([open], open.id, new Date("2026-10-02T00:00:00Z"));
+    expect(done[0]).toMatchObject({ status: "done", done: "2026-10-02T00:00:00.000Z" });
+    expect(completeTask(done, open.id, new Date("2026-10-09T00:00:00Z"))[0].done).toBe("2026-10-02T00:00:00.000Z");
+  });
+});
