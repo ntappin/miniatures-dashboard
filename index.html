@@ -16,6 +16,28 @@
         <p><b id="k-share">—</b> of points painted. Biggest unpainted pile: <b id="k-pile">—</b>.</p>
         <span class="asof" id="asof"></span>
       </header>
+      <div class="savebar">
+        <span class="save-status local" id="save-status" role="status"></span>
+        <button type="button" class="btn" id="connect-btn">Connect to save</button>
+      </div>
+      <div class="card connect" id="connect-panel" hidden>
+        <h2>Save tasks to GitHub</h2>
+        <p class="note">Tasks are saved in this site's GitHub repo. Paste a GitHub token to save from this browser; it stays in this browser only.</p>
+        <ol class="steps">
+          <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub's new fine-grained token page</a>.</li>
+          <li>Under <b>Repository access</b>, choose <b>Only select repositories</b> and pick <b>miniatures-dashboard</b>.</li>
+          <li>Under <b>Permissions → Repository permissions</b>, set <b>Contents</b> to <b>Read and write</b>.</li>
+          <li>Generate the token and paste it here.</li>
+        </ol>
+        <form id="connect-form" class="row-form">
+          <label class="sr" for="token-input">GitHub token</label>
+          <input id="token-input" type="password" autocomplete="off" placeholder="github_pat_…" />
+          <button type="submit" class="btn primary">Connect</button>
+          <button type="button" class="btn" id="connect-cancel">Cancel</button>
+        </form>
+      </div>
+
+      <main id="view-dashboard">
       <div class="banner" id="banner" hidden></div>
 
       <section class="strip" aria-label="Totals">
@@ -29,6 +51,12 @@
           <div class="tile"><div class="l">Unpainted pts</div><div class="v" id="t-unpainted">—</div></div>
           <div class="tile"><div class="l">Painted share</div><div class="v" id="t-share">—</div></div>
         </div></div>
+      </section>
+
+      <section class="card nextup" id="next-up">
+        <div class="ch"><h2>Next up</h2><span class="note" id="next-more"></span></div>
+        <ul class="tasks" id="next-tasks"></ul>
+        <p class="empty" id="next-empty">No open tasks. Open an army to add one.</p>
       </section>
 
       <div class="grid">
@@ -85,6 +113,48 @@
           </div>
         </section>
       </div>
+      </main>
+
+      <main id="view-army" hidden>
+        <nav class="crumbs"><a href="#">← All armies</a></nav>
+        <div class="army-head">
+          <h2 class="army-name" id="army-name"></h2>
+          <span class="note" id="army-sub"></span>
+        </div>
+        <section class="tiles t6" aria-label="Army totals">
+          <div class="tile"><div class="l">Models</div><div class="v" id="a-models">—</div></div>
+          <div class="tile"><div class="l">Total points</div><div class="v" id="a-total">—</div></div>
+          <div class="tile"><div class="l">Painted pts</div><div class="v" id="a-painted">—</div></div>
+          <div class="tile"><div class="l">Unpainted pts</div><div class="v" id="a-unpainted">—</div></div>
+          <div class="tile"><div class="l">Painted share</div><div class="v" id="a-share">—</div></div>
+          <div class="tile"><div class="l">In progress</div><div class="v small" id="a-backlog">—</div></div>
+        </section>
+        <div class="grid">
+          <section class="card" id="army-tasks-card">
+            <div class="ch"><h2>Tasks</h2><span class="note" id="army-task-count"></span></div>
+            <form id="task-form" class="task-form">
+              <label class="sr" for="task-title">New task</label>
+              <input id="task-title" type="text" placeholder="Next step, e.g. glue bases" autocomplete="off" required />
+              <label class="sr" for="task-unit">Unit</label>
+              <select id="task-unit"></select>
+              <button type="submit" class="btn primary">Add task</button>
+            </form>
+            <ul class="tasks" id="army-tasks"></ul>
+            <p class="empty" id="army-tasks-empty">No tasks yet. Add the next step above.</p>
+          </section>
+          <section class="card" id="army-units-card">
+            <h2>Units</h2>
+            <p class="note">From the in progress tab. Click a unit to add a task for it.</p>
+            <div class="tw" id="army-units-wrap">
+              <table id="army-units">
+                <thead><tr><th>Unit</th><th>State</th><th>Pts</th><th>Models</th><th>When</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <p class="empty" id="army-units-empty" hidden>No units for this army on the in progress tab yet.</p>
+          </section>
+        </div>
+      </main>
       <p class="foot" id="foot"></p>
     </div>
     <script type="module" src="/src/main.ts"></script>

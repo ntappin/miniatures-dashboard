@@ -1,0 +1,23 @@
+[
+  {
+    "id": "mgrz3k00-ngbas",
+    "army": "night-goblins",
+    "title": "Connect the bases",
+    "status": "todo",
+    "created": "2026-10-16T01:24:00.000Z"
+  },
+  {
+    "id": "mgrz3k01-hqmsk",
+    "army": "harlequins",
+    "title": "Add masking",
+    "status": "todo",
+    "created": "2026-10-16T01:24:01.000Z"
+  },
+  {
+    "id": "mgrz3k02-agasm",
+    "army": "agents",
+    "title": "Finish assembly steps",
+    "status": "todo",
+    "created": "2026-10-16T01:24:02.000Z"
+  }
+]
